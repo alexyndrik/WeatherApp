@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/certain_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="2"
+            android:layout_gravity="fill"
+            android:gravity="center"
+            android:textSize="40dp"/>
+
+        <TextClock
+            android:id="@+id/digital_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:format24Hour="yyyy.MM.dd\nk:mm:ss"
+            android:format12Hour="yyyy.MM.dd\nk:mm:ss"
+            android:textSize="20dp"/>
+
+        <include
+            layout="@layout/city_info"
+            android:id="@+id/certain_city_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"/>
+
+    </GridLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hourly_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/forecast_item"
+        android:scrollbars="vertical"
+        android:padding="5dp"/>
+
+</LinearLayout>

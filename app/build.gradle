@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.alexyndrik.weatherapp"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        def openweathermapApiKey = properties.getProperty("openweathermap_api_key")
+        it.buildConfigField 'String', "OPENWEATHERMAP_API_KEY", openweathermapApiKey
+        it.resValue 'string', "api_key", openweathermapApiKey
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'com.google.android.material:material:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    def moshi_version = "1.8.0"
+    def retrofit2_version = "2.5.0"
+    def okhttp3_version = "3.12.0"
+    def kotlinCoroutines_version = "1.0.1"
+    def picasso_version = "2.71828"
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+//    kapt "com.squareup.moshi:moshi-kotlin:$moshi_version"
+
+    // Retrofit2
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit2_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
+
+    // OkHttp3
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
+
+    // Picasso for Image Loading
+    implementation ("com.squareup.picasso:picasso:$picasso_version") {
+        exclude group: "com.android.support"
+    }
+
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutines_version"
+
+}
